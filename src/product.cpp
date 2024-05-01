@@ -12,7 +12,12 @@ Product::Product(uint64_t i, const std::string& n, double p, int32_t q)
     );
 }
 
-Product::~Product() = default;
+Product::~Product() {
+    if(PRODUCT_DBG) printf(
+        "%s Deallocated a product: name = %s, price = %.2lf, quantity = %d\n", 
+        NOTE, m_name.c_str(), m_price, m_quantity
+    );
+}
 
 uint64_t Product::get_id() {
     return m_id;

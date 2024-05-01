@@ -19,12 +19,20 @@ class Order {
     double m_total;
 
 public:
-    Order(uint64_t i, User* u, std::unordered_map<Product*, uint32_t>* ix, double t);
+    Order(uint64_t id, User* user, std::unordered_map<Product*, uint32_t>* items, double total);
     ~Order();
-    void update_status(OrderStatus s);
+
+    // updates the status to a specific status
+    void update_status(OrderStatus new_status);
+    
+    // updates the status by one step
     void update_status();
+
+    // gets its current OrderStatus
     OrderStatus get_status() const;
-    void print(uint32_t x) const;
+
+    // prints out the order - items, status
+    void print(uint32_t indent_size) const;
 };
 
 #endif//__order_h__

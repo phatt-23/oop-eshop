@@ -18,10 +18,12 @@ public:
     void add(Product* p, uint32_t q);
     void remove(Product* p, uint32_t q);
     double update_total();
+    void set_total(double total);
     User* get_owner();
     double get_total();
     std::unordered_map<Product*, uint32_t>* get_content();
     void checkout();
+    void checkout_with_discount(double discount);
 };
 
 #endif//__cart_h__

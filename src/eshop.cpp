@@ -11,6 +11,13 @@ Eshop::Eshop(const std::string& n)
 
 Eshop::~Eshop() {
     if(DBG_ESHOP) printf("%s Deallocating E-shop %s!\n", NOTE, m_name.c_str()); 
+    // TODO: free everything
+    for(auto p : m_catalog) {
+        delete p;
+    }
+    for(auto c : m_customers) {
+        delete c;
+    }
 } 
 
 void Eshop::add_customer(Customer* c) {
@@ -24,6 +31,10 @@ void Eshop::add_customer(uint64_t i, const std::string& n, const std::string& e)
 void Eshop::add_product(uint32_t i, const std::string& n, double p, int32_t q) {
     m_catalog.push_back(new Product(i, n, p, q));
     m_product_count++;
+}
+
+void Eshop::add_product(Product& p) {
+    m_catalog.push_back(&p);
 }
 
 void Eshop::add_product(Product* p) {
@@ -48,6 +59,9 @@ Product* Eshop::get_product(uint32_t i) {
     return nullptr;
 }
 
+std::vector<Product*>* Eshop::get_catalog() {
+    return &m_catalog;
+}
 
 void Eshop::price_increase(double i) {
     for(Product* p : m_catalog) {
@@ -64,8 +78,12 @@ void Eshop::print() {
             << "(id: " << p->get_id()
             << ", name: " << p->get_name()
             << ", price: " << p->get_price()
-            << ", quantity: " << p->get_quantity()
-            << ")," << std::endl;
+            << ", quantity: ";
+        if(p->get_quantity() == INF)  
+            std::cout << "infinite";
+        else 
+            std::cout << p->get_quantity();
+        std::cout << ")," << std::endl;
     }
     printf("}\n");
 
@@ -83,3 +101,14 @@ void Eshop::print() {
 
     printf("-----------------------\n");
 }
+
+void Eshop::add_premium_customer(uint64_t i, const std::string& n, const std::string& e, double points) {
+    m_customers.push_back(new PremiumCustomer(i, n, e, &m_catalog, points));
+
+}
+
+void Eshop::add_premium_customer(Customer* basic_customer, double points) {
+    m_customers.push_back(new PremiumCustomer(basic_customer, points));
+}
+
+

@@ -1,6 +1,7 @@
 #ifndef __precompiled_h__
 #define __precompiled_h__
 
+#include <cstdint>
 #include <iostream>
 #include <vector>
 #include <functional>

@@ -4,6 +4,7 @@
 #include "precompiled.h"
 #include "product.h"
 #include "customer.h"
+#include "premium_customer.h"
 
 
 class Eshop {
@@ -14,17 +15,45 @@ private:
     uint32_t m_product_count;
 
 public:
-    Eshop(const std::string& n);
+    // Initialise the e-shop. Pass in the name of your e-shop.
+    Eshop(const std::string& name);
+
+    // Deconstructor.
     ~Eshop();
-    void add_customer(Customer* c);
-    void add_customer(uint64_t i, const std::string& n, const std::string& e);
-    void add_product(Product* p);
-    void add_product(uint32_t i, const std::string& n, double p, int32_t q);
 
-    Customer* get_customer(uint32_t i);
-    Product* get_product(uint32_t i);
+    // Add a product by passing in the Customer.
+    void add_customer(Customer* customer);
+    
+    // Add a product by constructing the Customer.
+    void add_customer(uint64_t id, const std::string& name, const std::string& email);
+    
+    // Add a premium customer.
+    void add_premium_customer(uint64_t i, const std::string& n, const std::string& e, double points);
 
-    void price_increase(double i);
+    void add_premium_customer(Customer* basic_customer, double points);
+
+    // Add a product by passing in the Product.
+    void add_product(Product& product);
+    
+    // Add a product by passing in the Product.
+    void add_product(Product* product);
+
+    // Add a product by constructing the Product.
+    void add_product(uint32_t id, const std::string& name, double price, int32_t quantity);
+
+    // Get a customer by searching by its ID.
+    Customer* get_customer(uint32_t id);
+
+    // Get a product by searching by its ID.
+    Product* get_product(uint32_t id);
+
+    // Get the pointer to the catalog
+    std::vector<Product*>* get_catalog();
+
+    // Increase the prices by a percentage where 0 = 0% and 1 = 100%.
+    void price_increase(double increase_by);
+
+    // Prints out the current state of the e-shop.
     void print();
 };
 

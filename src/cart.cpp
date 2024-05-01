@@ -86,3 +86,15 @@ void Cart::checkout() {
     this->update_total();
 }
 
+void Cart::set_total(double total) {
+    m_total = total;
+}
+
+void Cart::checkout_with_discount(double discount) {
+    if(this->m_total >= discount && this->get_owner()->get_points() >= discount) {
+        this->m_total -= discount;
+        this->get_owner()->set_points(this->get_owner()->get_points() - discount);
+    }
+    m_content.clear();
+    this->update_total();
+}

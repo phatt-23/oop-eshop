@@ -7,20 +7,25 @@
 #include "order.h"
 
 class Customer : public User {
+protected:
     Cart* m_cart;
-    std::vector<Product*>* m_catalog_ptr;
+    const std::vector<Product*>* m_catalog_ptr;
     std::vector<Order*> m_orders;
 
 public:
-    Customer(uint64_t i, const std::string& n, const std::string& e, std::vector<Product*>* c);
-    ~Customer();
+    Customer(uint64_t id, const std::string& name, const std::string& email, const std::vector<Product*>* cart);
+    virtual ~Customer();
 
-    void add_to_cart(Product* p, uint32_t q);
-    void add_to_cart(uint64_t i, uint32_t q);
-    void remove_from_cart(Product* p, uint32_t q);
+    void add_to_cart(Product* product, uint32_t quantity);
+    void add_to_cart(uint64_t product_id, uint32_t quantity);
+    void remove_from_cart(Product* product, uint32_t quantity);
     void checkout();
+    void checkout(double discount);
     void orders_print(uint32_t x) const;
-    void print();
+    void print() override;
+    const std::vector<Product*>* get_catalog() const;
+    std::vector<Order*> get_orders(); 
+    virtual void add_points();
 };
 
 #endif//__customer_h__
